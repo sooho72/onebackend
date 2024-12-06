@@ -1,10 +1,14 @@
 package com.example.onepointup.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     private Long id;         // 사용자 고유 ID
     private String username; // 사용자 ID

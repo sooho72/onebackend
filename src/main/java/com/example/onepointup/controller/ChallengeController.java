@@ -1,12 +1,19 @@
 package com.example.onepointup.controller;
 
 import com.example.onepointup.dto.ChallengeDTO;
+import com.example.onepointup.model.User;
+import com.example.onepointup.security.UserPrinciple;
 import com.example.onepointup.service.ChallengeService;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+
+@Log4j2
 @RestController
 @RequestMapping("/api/challenges")
 @RequiredArgsConstructor
@@ -16,9 +23,10 @@ public class ChallengeController {
 
     @PostMapping
     public ResponseEntity<ChallengeDTO> createChallenge(
-            @RequestBody ChallengeDTO challengeDTO,
-            @RequestParam Long userId) {
-        ChallengeDTO createdChallenge = challengeService.createChallenge(challengeDTO, userId);
+            @RequestBody ChallengeDTO challengeDTO, @AuthenticationPrincipal UserPrinciple userPrincipal
+            ) {
+        log.info("Creating challenge: " + challengeDTO);
+        ChallengeDTO createdChallenge = challengeService.createChallenge(challengeDTO, userPrincipal.getUsername());
         return new ResponseEntity<>(createdChallenge, HttpStatus.CREATED);
     }
 

@@ -18,15 +18,15 @@ public class ChallengeServiceImpl implements ChallengeService {
     private final UserRepository userRepository;
 
     @Override
-    public ChallengeDTO createChallenge(ChallengeDTO challengeDTO, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public ChallengeDTO createChallenge(ChallengeDTO challengeDTO, String username) {
+        User user = userRepository.findByUsername(username);
 
         Challenge challenge = Challenge.builder()
                 .title(challengeDTO.getTitle())
                 .description(challengeDTO.getDescription())
                 .startDate(challengeDTO.getStartDate())
                 .endDate(challengeDTO.getEndDate())
+                .isCompleted(challengeDTO.getIsCompleted())
                 .isPublic(challengeDTO.getIsPublic())
                 .progress(0.0f)
                 .user(user)
