@@ -2,7 +2,8 @@ package com.example.onepointup.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+@Getter
+@Setter
 @Data
 @Entity
 @Table(name = "reports")

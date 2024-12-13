@@ -12,19 +12,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Log4j2
 @RestController
 @RequestMapping("/api/challenges")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ChallengeController {
 
     private final ChallengeService challengeService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<ChallengeDTO> createChallenge(
-            @RequestBody ChallengeDTO challengeDTO, @AuthenticationPrincipal UserPrinciple userPrincipal
-            ) {
+            @RequestBody ChallengeDTO challengeDTO,
+            @AuthenticationPrincipal UserPrinciple userPrincipal) {
         log.info("Creating challenge: " + challengeDTO);
         ChallengeDTO createdChallenge = challengeService.createChallenge(challengeDTO, userPrincipal.getUsername());
         return new ResponseEntity<>(createdChallenge, HttpStatus.CREATED);
@@ -49,4 +52,12 @@ public class ChallengeController {
         challengeService.deleteChallenge(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    // **모든 챌린지 가져오기** 추가
+    @GetMapping
+    public ResponseEntity<List<ChallengeDTO>> getAllChallenges() {
+        List<ChallengeDTO> challenges = challengeService.getAllChallenges();
+        return new ResponseEntity<>(challenges, HttpStatus.OK);
+    }
+
 }

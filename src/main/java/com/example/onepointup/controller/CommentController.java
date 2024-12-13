@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class CommentController {
 
     private final CommentService commentService;
@@ -27,4 +28,5 @@ public class CommentController {
         List<CommentDTO> comments = commentService.getCommentsByJournal(journalId);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
+
 }

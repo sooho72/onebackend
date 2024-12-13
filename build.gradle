@@ -1,3 +1,4 @@
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.0'
@@ -34,6 +35,15 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // 기존 의존성들 ...
+
+    // ModelMapper 의존성 추가
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+
+    // 테스트를 위해 필요한 경우
+    testImplementation 'org.modelmapper:modelmapper:3.1.0'
+
+
 
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'

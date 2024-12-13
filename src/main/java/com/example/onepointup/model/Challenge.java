@@ -36,7 +36,8 @@ public class Challenge extends BaseEntity {
     private Float progress;
 
     @Column(name = "is_completed", nullable = false)
-    private Boolean isCompleted;
+    private Boolean isCompleted = false;
+
 
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic;

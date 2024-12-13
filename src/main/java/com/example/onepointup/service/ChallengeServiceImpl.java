@@ -6,9 +6,11 @@ import com.example.onepointup.model.User;
 import com.example.onepointup.repository.ChallengeRepository;
 import com.example.onepointup.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +18,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private final ChallengeRepository challengeRepository;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public ChallengeDTO createChallenge(ChallengeDTO challengeDTO, String username) {
@@ -83,4 +86,13 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .isPublic(challenge.getIsPublic())
                 .build();
     }
+    @Override
+    public List<ChallengeDTO> getAllChallenges() {
+        return challengeRepository.findAll()
+                .stream()
+                .map(challenge -> entitytodto(challenge))
+                .collect(Collectors.toList());
+
+    }
+
 }

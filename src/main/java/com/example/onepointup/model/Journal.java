@@ -3,7 +3,8 @@ package com.example.onepointup.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
-
+@Getter
+@Setter
 @Data
 @Entity
 @Table(name = "journals")

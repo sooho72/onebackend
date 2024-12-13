@@ -1,5 +1,6 @@
 package com.example.onepointup.repository;
 
+import com.example.onepointup.dto.ChallengeDTO;
 import com.example.onepointup.model.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -30,4 +30,10 @@ public class UserController {
         userService.changeRole(role,userPrinciple.getUsername());
         return ResponseEntity.ok(true);
     }
+    // 로그인된 사용자 정보 반환
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUser(@AuthenticationPrincipal UserPrinciple userPrinciple) {
+        UserDTO userDTO = userService.getUserByUsername(userPrinciple.getUsername());
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
 }

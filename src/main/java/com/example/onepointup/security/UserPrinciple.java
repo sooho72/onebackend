@@ -19,6 +19,7 @@ public class UserPrinciple implements UserDetails {
 
     private Long id;
     private String username;
+    private String name; // name 필드 추가
     transient private String password;
     transient private User user;
     private Set<GrantedAuthority> authorities;
@@ -41,28 +42,29 @@ public class UserPrinciple implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return true;
-
     }
 
     @Override
     public boolean isAccountNonLocked() {
         return true;
-
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-
     }
 
     @Override
     public boolean isEnabled() {
         return true;
-
     }
+
     public Long getId() {
         return id;
+    }
+
+    public String getName() { // getName 메서드 추가
+        return name;
     }
 
 }

@@ -1,10 +1,13 @@
 package com.example.onepointup.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
 @Data
 @Builder
+@NoArgsConstructor // 기본 생성자 추가
+@AllArgsConstructor // 모든 필드의 생성자 추가
 public class JournalDTO {
     private Long id;          // 기록 ID
     private Long challengeId; // 연관된 챌린지 ID
