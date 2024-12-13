@@ -55,8 +55,10 @@ public class ChallengeController {
 
     // **모든 챌린지 가져오기** 추가
     @GetMapping
-    public ResponseEntity<List<ChallengeDTO>> getAllChallenges() {
+    public ResponseEntity<List<ChallengeDTO>> getAllChallenges()
+    {
         List<ChallengeDTO> challenges = challengeService.getAllChallenges();
+        log.info("Challenges: "+challenges.get(0)) ;
         return new ResponseEntity<>(challenges, HttpStatus.OK);
     }
 

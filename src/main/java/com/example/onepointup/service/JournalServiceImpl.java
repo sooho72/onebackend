@@ -34,6 +34,8 @@ public class JournalServiceImpl implements JournalService {
                 .date(LocalDate.now())
                 .build();
 
+        challenge.setProgress(challenge.getProgress()+journalDTO.getProgress());
+        challengeRepository.save(challenge);
 
         journal = journalRepository.save(journal);
         return toDTO(journal);

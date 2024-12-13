@@ -1,8 +1,11 @@
 package com.example.onepointup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -41,4 +44,8 @@ public class Challenge extends BaseEntity {
 
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic;
+
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("challenge")
+    private List<Journal> journals = new ArrayList<>();
 }

@@ -40,8 +40,8 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public ChallengeDTO getChallengeById(Long challengeId) {
-        Challenge challenge = challengeRepository.findById(challengeId)
+    public ChallengeDTO getChallengeById(Long id) {
+        Challenge challenge = challengeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Challenge not found"));
         return toDTO(challenge);
     }
@@ -68,15 +68,18 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public void deleteChallenge(Long challengeId) {
-        Challenge challenge = challengeRepository.findById(challengeId)
+    public void deleteChallenge(Long id) {
+        Challenge challenge = challengeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Challenge not found"));
+
         challengeRepository.delete(challenge);
     }
 
     private ChallengeDTO toDTO(Challenge challenge) {
         return ChallengeDTO.builder()
                 .id(challenge.getId())
+                .username(challenge.getUser().getUsername()) // 작성자 username 추가
+                .name(challenge.getUser().getName())         // 작성자 이름 추가
                 .title(challenge.getTitle())
                 .description(challenge.getDescription())
                 .startDate(challenge.getStartDate())
@@ -90,9 +93,8 @@ public class ChallengeServiceImpl implements ChallengeService {
     public List<ChallengeDTO> getAllChallenges() {
         return challengeRepository.findAll()
                 .stream()
-                .map(challenge -> entitytodto(challenge))
+                .map(this::toDTO) // toDTO 메서드로 변환
                 .collect(Collectors.toList());
-
     }
 
 }
