@@ -40,8 +40,8 @@ public class SecurityConfig { //시큐리티는 컨트롤러 앞에 꽂힌다
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/api/challenges/**","/api/journals/**").hasAnyRole("USER", "ADMIN") // 챌린지 관련 경로는 USER, ADMIN 역할 허용// 공개된 API는 모두 허용
-                        .requestMatchers(HttpMethod.DELETE, "/api/challenges/**").hasAnyRole("USER", "ADMIN") // DELETE 요청 권한 필요
+                        .requestMatchers("/api/challenges/**","/api/journals/**","/api/users/**","/api/comments/**").hasAnyRole("USER", "ADMIN") // 챌린지 관련 경로는 USER, ADMIN 역할 허용// 공개된 API는 모두 허용
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasAnyRole("USER", "ADMIN") // DELETE 요청 권한 필요
                         .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 권한 필요
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )

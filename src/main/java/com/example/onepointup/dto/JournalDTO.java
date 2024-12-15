@@ -2,6 +2,8 @@ package com.example.onepointup.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -14,4 +16,6 @@ public class JournalDTO {
     private String content;   // 기록 내용
     private String mood;      // 감정 상태 (예: "GOOD", "NORMAL", "SAD")
     private Float progress;   // 기록 시 달성률
+    private LocalDateTime createdAt; // 추가
+    private LocalDateTime updatedAt; // 추가
 }

@@ -30,4 +30,11 @@ public class JournalController {
         List<JournalDTO> journals = journalService.getJournalsByChallenge(challengeId);
         return new ResponseEntity<>(journals, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{journalId}")
+    public ResponseEntity<Void> deleteJournal(@PathVariable Long journalId) {
+        journalService.deleteJournal(journalId);
+        return ResponseEntity.noContent().build();
+    }
 }
+

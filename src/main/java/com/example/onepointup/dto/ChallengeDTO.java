@@ -3,6 +3,8 @@ package com.example.onepointup.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -19,6 +21,8 @@ public class ChallengeDTO {
     private LocalDate endDate;   // 종료 날짜
     private Float progress;      // 진행률 (0~100%)
     private Boolean isCompleted; // 완료 여부
-    private Boolean isPublic;    // 공개 여부
+    private Boolean isPublic; // 공개 여부
+    private LocalDateTime createdAt; // 추가
+    private LocalDateTime updatedAt; // 추가
 
 }

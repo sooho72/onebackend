@@ -54,18 +54,7 @@ public class JournalServiceImpl implements JournalService {
         return journals.stream().map(this::toDTO).toList();
     }
 
-    @Override
-    public JournalDTO updateJournal(Long journalId, JournalDTO journalDTO) {
-        Journal journal = journalRepository.findById(journalId)
-                .orElseThrow(() -> new RuntimeException("Journal not found"));
 
-        journal.setContent(journalDTO.getContent());
-        journal.setMood(Mood.valueOf(journalDTO.getMood()));
-        journal.setProgress(journalDTO.getProgress());
-
-        journal = journalRepository.save(journal);
-        return toDTO(journal);
-    }
 
     @Override
     public void deleteJournal(Long journalId) {
@@ -81,6 +70,7 @@ public class JournalServiceImpl implements JournalService {
                 .content(journal.getContent())
                 .mood(journal.getMood().name())
                 .progress(journal.getProgress())
+                .createdAt(journal.getCreatedAt())
                 .build();
     }
 }

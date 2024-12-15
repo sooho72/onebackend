@@ -48,4 +48,8 @@ public class Challenge extends BaseEntity {
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("challenge")
     private List<Journal> journals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("challenge")
+    private List<Comment> comments = new ArrayList<>();
 }

@@ -1,64 +1,71 @@
+// src/main/java/com/example/onepointup/service/CommentServiceImpl.java
+
 package com.example.onepointup.service;
 
 import com.example.onepointup.dto.CommentDTO;
+import com.example.onepointup.model.Challenge;
 import com.example.onepointup.model.Comment;
-import com.example.onepointup.model.Journal;
 import com.example.onepointup.model.User;
+import com.example.onepointup.repository.ChallengeRepository;
 import com.example.onepointup.repository.CommentRepository;
-import com.example.onepointup.repository.JournalRepository;
 import com.example.onepointup.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final JournalRepository journalRepository;
+    private final ChallengeRepository challengeRepository;
     private final UserRepository userRepository;
 
     @Override
-    public CommentDTO createComment(CommentDTO commentDTO) {
-        Journal journal = journalRepository.findById(commentDTO.getJournalId())
-                .orElseThrow(() -> new RuntimeException("Journal not found"));
+    public CommentDTO addComment(CommentDTO commentDTO) {
+        Challenge challenge = challengeRepository.findById(commentDTO.getChallengeId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Challenge not found with id: " + commentDTO.getChallengeId()));
 
         User user = userRepository.findById(commentDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "User not found with id: " + commentDTO.getUserId()));
 
         Comment comment = Comment.builder()
-                .journal(journal)
-                .user(user)  // 작성자 설정
+                .challenge(challenge)
+                .user(user)
                 .content(commentDTO.getContent())
-                .isPositive(commentDTO.getIsPositive())
                 .build();
 
-        comment = commentRepository.save(comment);
-        return toDTO(comment);
-    }
-
-    @Override
-    public List<CommentDTO> getCommentsByJournal(Long journalId) {
-        List<Comment> comments = commentRepository.findByJournalId(journalId);
-        return comments.stream().map(this::toDTO).toList();
+        Comment savedComment = commentRepository.save(comment);
+        return toDTO(savedComment);
     }
 
     @Override
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("Comment not found"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Comment not found with id: " + commentId));
         commentRepository.delete(comment);
+    }
+    @Override
+    public List<CommentDTO> getCommentsByChallengeId(Long challengeId) {
+        List<Comment> comments = commentRepository.findByChallengeId(challengeId);
+        return comments.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private CommentDTO toDTO(Comment comment) {
         return CommentDTO.builder()
                 .id(comment.getId())
-                .journalId(comment.getJournal().getId())
-                .userId(comment.getUser().getId())  // 작성자 ID 추가
+                .userId(comment.getUser().getId())
+                .challengeId(comment.getChallenge().getId())
                 .content(comment.getContent())
-                .isPositive(comment.getIsPositive())
+                .createdAt(comment.getCreatedAt())
+                .updatedAt(comment.getUpdatedAt())
                 .build();
     }
 }

@@ -62,6 +62,7 @@ public class ChallengeServiceImpl implements ChallengeService {
         challenge.setStartDate(challengeDTO.getStartDate());
         challenge.setEndDate(challengeDTO.getEndDate());
         challenge.setIsPublic(challengeDTO.getIsPublic());
+        challenge.setProgress(challengeDTO.getProgress());
 
         challenge = challengeRepository.save(challenge);
         return toDTO(challenge);
@@ -87,6 +88,8 @@ public class ChallengeServiceImpl implements ChallengeService {
                 .progress(challenge.getProgress())
                 .isCompleted(challenge.getIsCompleted())
                 .isPublic(challenge.getIsPublic())
+                .createdAt(challenge.getCreatedAt())
+                .updatedAt(challenge.getUpdatedAt())
                 .build();
     }
     @Override

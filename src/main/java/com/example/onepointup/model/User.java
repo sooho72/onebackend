@@ -31,4 +31,8 @@ public class User extends BaseEntity {
 
     @Transient
     private String token; // 토큰은 DB에 저장하지 않음
+
+    @Lob
+    @Column(name = "profile_image")
+    private byte[] profileImage; // 실제 이미지 파일 바이트
 }

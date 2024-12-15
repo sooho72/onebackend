@@ -2,6 +2,8 @@ package com.example.onepointup.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -14,4 +16,6 @@ public class ReportDTO {
     private Long commentId;  // 신고된 댓글 ID (optional)
     private String reason;   // 신고 사유
     private Long userId;     // 신고자 ID
+    private LocalDateTime createdAt; // 추가
+    private LocalDateTime updatedAt; // 추가
 }

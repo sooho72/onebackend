@@ -3,7 +3,9 @@ package com.example.onepointup.service;
 import com.example.onepointup.dto.UserDTO;
 import com.example.onepointup.model.Role;
 import com.example.onepointup.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -14,6 +16,7 @@ public interface UserService {
     UserDTO updateUser(Long id, UserDTO userDTO); // 사용자 정보 수정
     void deleteUser(Long id);           // 사용자 삭제
     void changeRole(Role newRole, String username);
-
-    List<User> findAllUsers();
+    void updateUserProfileImage(String username, MultipartFile file) throws IOException;
+    byte[] getUserProfileImage(String username);
+    List<UserDTO> findAllUsers();
 }

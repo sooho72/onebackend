@@ -2,6 +2,8 @@ package com.example.onepointup.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -14,4 +16,8 @@ public class UserDTO {
     private String password; // 사용자 비밀번호
     private String name;     // 사용자 이름
     private String role;     // 사용자 역할 (예: "USER", "ADMIN")
+    private LocalDateTime createdAt; // 추가
+    private LocalDateTime updatedAt; // 추가
+    private byte[] profileImage;
+
 }
