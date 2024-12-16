@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -111,7 +112,19 @@ public class UserServiceImpl implements UserService {
     public byte[] getUserProfileImage(String username) {
         User user = Optional.ofNullable(userRepository.findByUsername(username))
                 .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다. 사용자명: " + username));
-        return user.getProfileImage();
+
+        byte[] profileImage = user.getProfileImage();
+
+        // 바이트 배열 로그 추가
+        if (profileImage != null) {
+            int limit = 20; // 출력할 최대 바이트 수
+            String preview = Arrays.toString(Arrays.copyOf(profileImage, Math.min(profileImage.length, limit)));
+            System.out.println("profileImage=" + preview + " ... (이하 생략)");
+        } else {
+            System.out.println("profileImage=null");
+        }
+
+        return profileImage;
     }
 
     // DTO와 엔티티 변환 메서드
