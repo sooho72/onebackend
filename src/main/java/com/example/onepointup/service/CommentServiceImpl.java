@@ -62,8 +62,10 @@ public class CommentServiceImpl implements CommentService {
         return CommentDTO.builder()
                 .id(comment.getId())
                 .userId(comment.getUser().getId())
+                .username(comment.getUser().getUsername())
                 .challengeId(comment.getChallenge().getId())
                 .content(comment.getContent())
+                .name(comment.getUser().getName())
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())
                 .build();
