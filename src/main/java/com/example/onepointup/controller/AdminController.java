@@ -7,6 +7,7 @@ import com.example.onepointup.service.ChallengeService;
 import com.example.onepointup.service.CommentService;
 import com.example.onepointup.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Log4j2
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -47,15 +48,17 @@ public class AdminController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/change/{role}")
+    @PutMapping("/change/{role}/{username}")
     public ResponseEntity<Object> changeRole(
             @AuthenticationPrincipal UserPrinciple userPrinciple,
-            @PathVariable Role role) {
-        if (!userPrinciple.getUser().getRole().equals(Role.ADMIN)) {
-            throw new AccessDeniedException("권한 변경은 관리자만 수행할 수 있습니다.");
-        }
-        userService.changeRole(role, userPrinciple.getUsername());
+            @PathVariable ("role") Role role,
+            @PathVariable("username") String username) {
+        log.info("Changing role to " + role+ username);
+
+//        if (!userPrinciple.getUser().getRole().equals(Role.ADMIN)) {
+//            throw new AccessDeniedException("권한 변경은 관리자만 수행할 수 있습니다.");
+//        }
+        userService.changeRole(role,username);
         return ResponseEntity.ok(true);
     }
-
 }
