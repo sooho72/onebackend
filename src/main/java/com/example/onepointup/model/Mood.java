@@ -1,5 +1,5 @@
 package com.example.onepointup.model;
 
 public enum Mood {
-    GOOD,BAD,HAPPY,SAD,UNDEFINED;
+    GOOD,BAD,HAPPY,SAD,UNDEFINED
 }

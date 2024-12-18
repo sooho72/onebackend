@@ -29,13 +29,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PutMapping("change/{role}")
-    public ResponseEntity<Object> changeRole(
-            @AuthenticationPrincipal UserPrinciple userPrinciple,
-            @PathVariable Role role) {
-        userService.changeRole(role,userPrinciple.getUsername());
-        return ResponseEntity.ok(true);
-    }
+
     // 로그인된 사용자 정보 반환
     @GetMapping("/profile")
     public ResponseEntity<UserDTO> getCurrentUser(@AuthenticationPrincipal UserPrinciple userPrinciple) {
