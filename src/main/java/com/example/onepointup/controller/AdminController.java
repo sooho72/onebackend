@@ -1,10 +1,12 @@
 package com.example.onepointup.controller;
 
+import com.example.onepointup.dto.ReportDTO;
 import com.example.onepointup.dto.UserDTO;
 import com.example.onepointup.model.Role;
 import com.example.onepointup.security.UserPrinciple;
 import com.example.onepointup.service.ChallengeService;
 import com.example.onepointup.service.CommentService;
+import com.example.onepointup.service.ReportService;
 import com.example.onepointup.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,9 +24,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
+
     final UserService userService;
-    final ChallengeService challengeService;
-    final CommentService commentService;
+    final ReportService reportService;
 
 
     @GetMapping("")
@@ -61,4 +63,13 @@ public class AdminController {
         userService.changeRole(role,username);
         return ResponseEntity.ok(true);
     }
+
+    @GetMapping("/reports")
+    public ResponseEntity<List<ReportDTO>> getAllReports() {
+        List<ReportDTO> reports = reportService.getAllReports();
+        return ResponseEntity.ok(reports);
+    }
+
+
+
 }

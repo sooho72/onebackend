@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor // 모든 필드의 생성자 추가
 public class ChallengeDTO {
     private Long id;             // 챌린지 ID
-    private String username;
-    private String name;
+    private String username;     //유저아디
+    private String name;         //이름
     private String title;        // 챌린지 제목
     private String description;  // 챌린지 설명
     private LocalDate startDate; // 시작 날짜

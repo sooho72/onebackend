@@ -10,68 +10,67 @@ import com.example.onepointup.repository.JournalRepository;
 import com.example.onepointup.repository.ReportRepository;
 import com.example.onepointup.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
-    private final JournalRepository journalRepository;
-    private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     public ReportDTO createReport(ReportDTO reportDTO) {
-        Journal journal = null;
-        Comment comment = null;
+        Long commentId = reportDTO.getCommentId();
+        String reason = reportDTO.getReason();
 
-        if (reportDTO.getJournalId() != null) {
-            journal = journalRepository.findById(reportDTO.getJournalId())
-                    .orElseThrow(() -> new RuntimeException("Journal not found"));
-        }
+        // 현재 인증된 사용자 정보 획득
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // 로그인한 사용자 이름
+        log.info("Creating report for user: " + username + ", commentId: " + commentId);
 
-        if (reportDTO.getCommentId() != null) {
-            comment = commentRepository.findById(reportDTO.getCommentId())
-                    .orElseThrow(() -> new RuntimeException("Comment not found"));
-        }
+        User user = userRepository.findByUsername(username);
 
-        // User 정보 가져오기
-        User user = userRepository.findById(reportDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
 
         Report report = Report.builder()
-                .journal(journal)
-                .comment(comment)
-                .user(user) // 신고한 사용자 정보 설정
-                .reason(reportDTO.getReason())
+                .user(user)       // 인증 유저
+                .comment(comment) // 요청 받은 commentId로 조회한 댓글
+                .reason(reason)
                 .build();
 
         report = reportRepository.save(report);
+        log.info("Report created with ID: " + report.getId());
+
         return toDTO(report);
     }
 
     @Override
-    public List<ReportDTO> getReportsByJournal(Long journalId) {
-        List<Report> reports = reportRepository.findByJournalId(journalId);
-        return reports.stream().map(this::toDTO).toList();
-    }
-
-    @Override
-    public List<ReportDTO> getReportsByComment(Long commentId) {
-        List<Report> reports = reportRepository.findByCommentId(commentId);
-        return reports.stream().map(this::toDTO).toList();
+    public List<ReportDTO> getAllReports() {
+        List<Report> reports = reportRepository.findAll();
+        return reports.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private ReportDTO toDTO(Report report) {
         return ReportDTO.builder()
                 .id(report.getId())
-                .journalId(report.getJournal() != null ? report.getJournal().getId() : null)
-                .commentId(report.getComment() != null ? report.getComment().getId() : null)
-                .userId(report.getUser() != null ? report.getUser().getId() : null)
+                .commentId(report.getComment().getId())
                 .reason(report.getReason())
+                .username(report.getUser().getUsername())
+                .name(report.getUser().getName())
+                .createdAt(report.getCreatedAt())
                 .build();
     }
 }

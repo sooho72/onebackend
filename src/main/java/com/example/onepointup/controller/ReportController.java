@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reports")
 @RequiredArgsConstructor
+@RequestMapping("/api/report")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ReportController {
 
@@ -23,10 +23,5 @@ public class ReportController {
         return new ResponseEntity<>(createdReport, HttpStatus.CREATED);
     }
 
-    @GetMapping("/journal/{journalId}")
-    public ResponseEntity<List<ReportDTO>> getReportsByJournal(@PathVariable Long journalId) {
-        List<ReportDTO> reports = reportService.getReportsByJournal(journalId);
-        return new ResponseEntity<>(reports, HttpStatus.OK);
-    }
-}
 
+}

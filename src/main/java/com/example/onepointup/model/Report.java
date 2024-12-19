@@ -17,10 +17,6 @@ public class Report extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "journal_id", nullable = true)
-    private Journal journal; // 신고된 일지 (optional)
-
-    @ManyToOne
     @JoinColumn(name = "comment_id", nullable = true)
     private Comment comment; // 신고된 댓글 (optional)
 
