@@ -1,5 +1,6 @@
 package com.example.onepointup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class Journal extends BaseEntity {
     private Long id;
 
     @ManyToOne
+    @JsonIgnoreProperties("journals")
     @JoinColumn(name = "challenge_id", nullable = false)
     private Challenge challenge;
 

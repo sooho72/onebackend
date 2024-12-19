@@ -18,4 +18,5 @@ public class ReportDTO {
     private String username; // 신고자 유저네임
     private String name;     // 신고자 네임
     private LocalDateTime createdAt; // 신고 작성 날짜
+
 }

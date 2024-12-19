@@ -1,5 +1,6 @@
 package com.example.onepointup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 @Getter
@@ -17,8 +18,9 @@ public class Report extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "comment_id", nullable = true)
-    private Comment comment; // 신고된 댓글 (optional)
+    @JoinColumn(name = "comment_id")
+    @JsonIgnoreProperties("reports")
+    private Comment comment;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -26,4 +28,5 @@ public class Report extends BaseEntity {
 
     @Column(name = "reason", nullable = false, columnDefinition = "TEXT")
     private String reason;
+
 }
