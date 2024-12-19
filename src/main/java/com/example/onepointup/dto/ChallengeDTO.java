@@ -1,7 +1,8 @@
 package com.example.onepointup.dto;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,9 @@ public class ChallengeDTO {
     private String description;  // 챌린지 설명
     private LocalDate startDate; // 시작 날짜
     private LocalDate endDate;   // 종료 날짜
-    private Float progress;      // 진행률 (0~100%)
+    @DecimalMin(value = "0.0", inclusive = true, message = "Progress cannot be less than 0.")
+    @DecimalMax(value = "100.0", inclusive = true, message = "Progress cannot exceed 100.")
+    private Float progress;      // 달성률 (0~100%)
     private Boolean isCompleted; // 완료 여부
     private Boolean isPublic; // 공개 여부
     private LocalDateTime createdAt; // 추가
