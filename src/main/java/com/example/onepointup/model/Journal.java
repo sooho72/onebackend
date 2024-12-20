@@ -35,7 +35,7 @@ public class Journal extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "mood", nullable = false)
-// 기록 당시 감정 상태 (GOOD, NORMAL, SAD 중 하나)
+// 기록 당시 감정 상태 (GOOD,BAD,HAPPY,SAD,UNDEFINED)
     private Mood mood;
 
     @Column(name = "progress", nullable = false)

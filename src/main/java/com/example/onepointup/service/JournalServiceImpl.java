@@ -26,6 +26,14 @@ public class JournalServiceImpl implements JournalService {
         Challenge challenge = challengeRepository.findById(journalDTO.getChallengeId())
                 .orElseThrow(() -> new RuntimeException("Challenge not found"));
 
+        float updatedProgress = Math.min(challenge.getProgress() + journalDTO.getProgress(), 100);
+        challenge.setProgress(updatedProgress);
+
+        if (updatedProgress == 100) {
+            challenge.setIsCompleted(true);
+        }
+        challengeRepository.save(challenge);
+
         Journal journal = Journal.builder()
                 .challenge(challenge)
                 .content(journalDTO.getContent())
@@ -33,9 +41,6 @@ public class JournalServiceImpl implements JournalService {
                 .progress(journalDTO.getProgress())
                 .date(LocalDate.now())
                 .build();
-
-        challenge.setProgress(challenge.getProgress()+journalDTO.getProgress());
-        challengeRepository.save(challenge);
 
         journal = journalRepository.save(journal);
         return toDTO(journal);
@@ -58,10 +63,26 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public void deleteJournal(Long journalId) {
+        log.info("Deleting Journal with ID: " + journalId);
         Journal journal = journalRepository.findById(journalId)
                 .orElseThrow(() -> new RuntimeException("Journal not found"));
+
+        // 기록 삭제
         journalRepository.delete(journal);
+
+        // Challenge progress 재계산
+        Challenge challenge = journal.getChallenge();
+        float newProgress = challengeRepository.getTotalProgressByChallengeId(challenge.getId());
+        challenge.setProgress(Math.min(newProgress, 100));
+        challenge.setIsCompleted(newProgress == 100);
+        challengeRepository.save(challenge);
     }
+
+
+    private float calculateTotalProgress(Long challengeId) {
+        return challengeRepository.getTotalProgressByChallengeId(challengeId);
+    }
+
 
     private JournalDTO toDTO(Journal journal) {
         return JournalDTO.builder()

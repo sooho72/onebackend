@@ -3,6 +3,7 @@ package com.example.onepointup.repository;
 import com.example.onepointup.dto.ChallengeDTO;
 import com.example.onepointup.model.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
     // 공개된 챌린지 조회
     List<Challenge> findByIsPublicTrue();
+
+    @Query("SELECT COALESCE(SUM(j.progress), 0) FROM Journal j WHERE j.challenge.id = :challengeId")
+    Float getTotalProgressByChallengeId(Long challengeId);
 }

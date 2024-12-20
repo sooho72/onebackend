@@ -13,10 +13,9 @@ import java.time.LocalDateTime;
 public class CommentDTO {
     private Long id;         // 댓글 ID
     private Long challengeId;  // 연관된 챌린지글 ID
-    private String username;
+    private String username;  // 유저이름
     private Long userId;     // 작성자 ID
-    private String name;
+    private String name;     // 이름
     private String content;  // 댓글 내용
-    private LocalDateTime createdAt; // 추가
-    private LocalDateTime updatedAt; // 추가
+    private LocalDateTime createdAt; // 신고일자
 }

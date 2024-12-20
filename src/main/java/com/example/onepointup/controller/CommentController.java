@@ -30,7 +30,6 @@ public class CommentController {
 
     private final CommentService commentService;
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
 
     // 댓글 추가하기
