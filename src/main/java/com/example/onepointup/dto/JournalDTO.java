@@ -16,6 +16,6 @@ public class JournalDTO {
     private String content;   // 기록 내용
     private String mood;      // 감정 상태
     private Float progress;   // 기록 시 달성률
-    private LocalDateTime createdAt; // 추가
-    private LocalDateTime updatedAt; // 추가
+    private LocalDateTime createdAt; //기록작성날짜
+    private LocalDateTime updatedAt;
 }

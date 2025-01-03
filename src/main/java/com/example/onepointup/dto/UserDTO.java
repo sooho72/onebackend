@@ -18,6 +18,6 @@ public class UserDTO {
     private String role;     // 사용자 역할 (예: "USER", "ADMIN")
     private LocalDateTime createdAt; // 추가
     private LocalDateTime updatedAt; // 추가
-    private byte[] profileImage;
+    private byte[] profileImage;    // 프로필이미지
 
 }
